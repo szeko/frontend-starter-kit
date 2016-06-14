@@ -1,0 +1,9 @@
+{% macro render(src, hidpi=false, alt='', class='', hidpi_scale=2) %}
+
+	{% set img = getImage(src) %}
+	{% set width = img.width/hidpi_scale if hidpi != false else img.width %}
+	{% set height = img.height/hidpi_scale if hidpi != false else img.height %}
+
+	<img class="{{class}}" width="{{width}}" height="{{height}}" src="{{img.src}}" alt="{{alt}}"  />
+
+{% endmacro %}

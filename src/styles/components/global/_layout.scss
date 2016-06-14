@@ -1,0 +1,19 @@
+body, html {
+	width: 100%;
+}
+
+html {
+
+}
+
+body {
+	background: {
+		color: $body-bg-color;
+	}
+	color: $body-font-color;
+}
+
+.content {
+	max-width: $content-width;
+	margin: 0 auto;
+}

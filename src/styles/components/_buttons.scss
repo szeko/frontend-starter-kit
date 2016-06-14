@@ -1,0 +1,25 @@
+$button-bg-color: $color-white;
+$button-bg-color-hover: $color-secondary;
+$button-text-color: $color-primary;
+
+%button {
+	@include clear-appearance;
+
+	display: inline-block;
+	background: $button-bg-color;
+	color: $button-text-color;
+
+	&:hover {
+		background: $button-bg-color-hover;
+		color: $button-text-color;
+		transition-duration: 0.1s;
+	}
+
+	&[disabled] {
+		pointer-events: none;
+	}
+}
+
+.button {
+	@extend %button;
+}

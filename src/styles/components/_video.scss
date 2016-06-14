@@ -1,0 +1,19 @@
+@mixin video-player {
+	position: relative;
+	height: 0;
+	padding-bottom: percentage(9/16);
+
+	iframe,
+	embed,
+	object {
+		@include fill;
+	}
+}
+
+.video {
+
+}
+
+.video__inner {
+	@include video-player;
+}

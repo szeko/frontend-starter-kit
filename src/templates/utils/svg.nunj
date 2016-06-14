@@ -1,0 +1,12 @@
+{% macro render(icon = '', width = '0', height = '0', class = '', title = '', spritesheet = 'images/sprites.svg') %}
+
+  {% set height = width if height == '0' else height %}
+
+  {% set src = spritesheet ~ '#' ~ icon if spritesheet else 'images/' ~ icon ~ '.svg' %}
+
+  <svg role="presentation" class="icon {{ class }}" {% if title %}aria-label="{{ title }}"{% endif %} viewBox="0 0 {{ width }} {{ height }}" width="{{ width }}" height="{{ height }}">
+      {% if title %}<title>{{ title }}</title>{% endif %}
+      <use xlink:href="{{ src }}" />
+    </svg>
+
+{% endmacro %}

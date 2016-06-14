@@ -1,0 +1,4 @@
+* text=auto
+
+public/*.css binary -diff
+public/*.js binary -diff

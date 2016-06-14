@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--[if lte IE 9 ]> <html lang="en" class="ie9 lte9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en no-js"> <!--<![endif]-->
+<head>
+	<title>{{ title }}</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="Content-Language" content="en-US">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script>(function(H){H.className=H.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
+	<link rel="stylesheet" href="assets/styles/styles.css" />
+	{% block head %}{% endblock %}
+  </head>
+  <body class="{{ bodyClass }}">
+
+  	<div id="top" class="page" data-page>
+
+	    {% block header %}
+			{% include 'blocks/header.nunj' %}
+	    {% endblock %}
+
+		<main role="main">
+			{% block breadcrumbs %}
+				{% import 'components/breadcrumbs.nunj' as breadcrumbs %}
+				{{ breadcrumbs.render({
+					'Home': '/index.html',
+					'Page': '#',
+					'Subpage': false
+				}) }}
+			{% endblock %}
+			{% block main %}
+				<div class="content">
+					{% block body %}
+					{% endblock %}
+				</div>
+			{% endblock %}
+		</main>
+
+		{% block footer %}
+			{% include 'blocks/footer.nunj' %}
+		{% endblock %}
+
+	</div>
+
+	<script src="assets/scripts/scripts/vendor.js"></script>
+	<script src="assets/scripts/main.js"></script>
+</body>
+</html>

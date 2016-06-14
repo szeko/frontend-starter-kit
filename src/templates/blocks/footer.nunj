@@ -1,0 +1,13 @@
+{% import 'utils/svg.nunj' as svg %}
+
+<footer class="footer">
+
+	<div class="footer__wrapper">
+
+		<nav class="footer__menu">
+
+		</nav>
+
+	</div>
+
+</footer>

@@ -1,0 +1,9 @@
+# osx noise
+.DS_Store
+
+node_modules
+npm-debug.log
+
+_env.scss
+
+public

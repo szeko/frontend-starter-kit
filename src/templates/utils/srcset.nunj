@@ -1,0 +1,5 @@
+{% macro render(class = '', alt = '', image = {}, image_mobile = {}, breakpoint = 768) %}
+
+	<img class="{{ class }}" src="{{ image.src }}" srcset="{% if image_mobile.src %}{{ image_mobile.src }} {{ image_mobile.width }}w, {% endif %}{{ image.src }} {{ image.width }}w{% if image.src_2x %}, {{ image.src_2x }} {{ image.width * 2 }}w{% endif %}" sizes="(max-width: {{ breakpoint - 1}}px) 100vw, {{ image.width }}px" alt="{{ alt }}">
+
+{% endmacro %}

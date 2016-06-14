@@ -1,0 +1,10 @@
+{% set title = 'Frontend Starter Kit' %}
+{% extends 'layouts/default.nunj' %}
+
+{% block body %}
+
+	<h1>Fronted Starter Kit</h1>
+
+	<p>Lorem ipsum dolor sit amet</p>
+
+{% endblock %}

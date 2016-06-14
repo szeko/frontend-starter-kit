@@ -1,0 +1,11 @@
+{% macro render(crumbs) %}
+
+  <ol class="breadcrumb">
+    {% for name, href in crumbs %}
+      <li>
+        {% if href %}<a href="{{ href }}">{% else %}<span>{% endif %}{{ name }}{% if href %}</a>{% else %}</span>{% endif %}
+      </li>
+    {% endfor %}
+  </ol>
+
+{% endmacro %}

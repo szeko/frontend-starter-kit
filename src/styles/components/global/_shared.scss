@@ -1,0 +1,49 @@
+body {
+	@include font-smoothing(on);
+	scroll-behavior: smooth;
+
+	&:after {
+		content: "small";
+		display: none;
+
+		@media #{$medium-up} {
+			content: "medium";
+		}
+
+		@media #{$large-up} {
+			content: "large";
+		}
+
+		@media #{$extra-large-up} {
+			content: "extra-large";
+		}
+	}
+}
+
+*, *:before, *:after {
+	box-sizing: border-box;
+}
+
+svg:not(:root) {
+	overflow: hidden;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+
+/**
+ * Browser Sync notifcation
+ *
+ * REMOVE THIS LATER
+ *
+ */
+#__bs_notify__ {
+	@media #{$small-only} {
+		padding: 5px !important;
+		font-size: 10px;
+		border-radius: 0 !important;
+	}
+}

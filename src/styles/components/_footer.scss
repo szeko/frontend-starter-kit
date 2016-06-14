@@ -1,0 +1,36 @@
+.footer {
+
+	a {
+		color: currentColor;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+.footer__wrapper {
+
+}
+
+.footer__menu {
+
+	ul {
+		@include reset-list;
+	}
+
+	li {
+		display: inline-block;
+		vertical-align: middle;
+		font-size: inherit;
+
+		&:not(:last-child) {
+			margin-right: 15px;
+		}
+	}
+
+	a {
+
+	}
+}
