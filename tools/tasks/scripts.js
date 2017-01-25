@@ -11,16 +11,13 @@ var sourcemaps = require('gulp-sourcemaps');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var uglify = require('gulp-uglify');
-var eslint = require('gulp-eslint');
 var concat = require('gulp-concat');
-var rename = require('gulp-rename');
-var plumber = require('gulp-plumber');
 
 module.exports = function (gulp, env) {
 
 	var lint = require('../utils/lint')(env.errorHandler);
 
-	gulp.task('scripts-main', [], function() {
+	gulp.task('scripts.main', [], function() {
 
 		var browserifyOptions = assign({}, watchify.args, {
 			debug: !env.production,
@@ -58,7 +55,6 @@ module.exports = function (gulp, env) {
 					.on('error', env.errorHandler)
 					.pipe(source(filename))
 					.pipe(buffer())
-					.pipe(env.generateUncompressed ? gulp.dest(env.paths.dist.scripts) : gutil.noop())
 					.pipe(sourcemaps.init({ loadMaps: true }))
 					.pipe(env.production ? uglify({
 						compress: {
@@ -67,7 +63,6 @@ module.exports = function (gulp, env) {
 						}
 					}) : gutil.noop())
 					.pipe(env.production ? gutil.noop() : sourcemaps.write())
-					.pipe(env.generateUncompressed ? rename({ suffix: '.min' }) : gutil.noop())
 					.pipe(gulp.dest(env.paths.dist.scripts))
 					.pipe(env.browserSync.active ? env.browserSync.stream() : gutil.noop());
 
@@ -88,12 +83,6 @@ module.exports = function (gulp, env) {
 
 	});
 
-	gulp.task('scripts-vendor', function () {
-		return gulp.src(env.paths.src.scriptsVendor)
-			.on('error', env.errorHandler)
-			.pipe(gulp.dest(path.join(env.paths.dist.scripts, 'vendor')));
-	});
-
 	gulp.task('scripts.vendor', function() {
 		if (!env.paths.src.scriptsVendor) {
 			return;
@@ -101,11 +90,9 @@ module.exports = function (gulp, env) {
 
 		return gulp.src(env.paths.src.scriptsVendor).on('error', env.errorHandler)
 			.pipe(concat(env.paths.dist.scriptsVendor || 'vendor.js'))
-			.pipe(env.generateUncompressed ? gulp.dest(env.paths.dist.scripts) : gutil.noop())
 			.pipe(uglify({
 				preserveComments: 'all'
 			}))
-			.pipe(env.generateUncompressed ? rename({ suffix: '.min' }) : gutil.noop())
 			.pipe(gulp.dest(env.paths.dist.scripts));
 	});
 
@@ -122,6 +109,6 @@ module.exports = function (gulp, env) {
 		return lint(path.join(env.paths.src.scripts, '**/*.js'));
 	});
 
-	gulp.task('scripts', ['scripts-main', 'scripts-vendor']);
+	gulp.task('scripts', ['scripts.main', 'scripts.vendor', 'scripts.external']);
 
 };

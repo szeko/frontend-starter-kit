@@ -1,5 +1,3 @@
-{% import 'utils/img.nunj' as img %}
-{% import 'utils/svg.nunj' as svg %}
 {% import 'components/menu.nunj' as menu %}
 
 <header class="header">
@@ -7,11 +5,13 @@
 	<div class="header__wrapper">
 
 		<div class="header__logo">
-			{{ img.render('logo.png', class='center') }}
+			{% include 'logo.svg' %}
 		</div>
 
 		<nav class="header__menu">
-			{{ menu.render({}) }}
+			{{ menu.render({
+				'home': '/index.html'
+			}) }}
 		</nav>
 
 	</div>

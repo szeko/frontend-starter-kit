@@ -1,0 +1,42 @@
+@function strip-unit($num) {
+	@return $num / ($num * 0 + 1);
+}
+
+@function str-replace($string, $search, $replace: '') {
+	$index: str-index($string, $search);
+
+	@if $index {
+		@return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+	}
+
+	@return $string;
+}
+
+@function url-encode($string) {
+	$encode-map: (
+		'%':'%25',
+		'<':'%3C',
+		'>':'%3E',
+		'&':'%26',
+		'#':'%23',
+		':':'%3A',
+		'"':"'"
+	);
+
+	@each $char, $code in $encode-map {
+		$string: str-replace($string, $char, $code);
+	}
+
+	@return $string;
+}
+
+@mixin conditional-query($query, $condition) {
+	@if $condition {
+		@media #{$query} {
+			@content;
+		}
+	}
+	@else {
+		@content;
+	}
+}

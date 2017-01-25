@@ -1,8 +1,6 @@
-var assign = require('lodash/assign');
+const assign = require('lodash/assign');
 
-module.exports = function (file, env, nunjucksEnv) {
-	return assign(file.data || {}, {
-		production: env.production,
-		env: env
-	});
-};
+module.exports = (file, env, nunjucksEnv) => assign(file.data || {}, {
+  production: env.production,
+  env
+});

@@ -1,0 +1,23 @@
+.js_frame {
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+	white-space: nowrap;
+	display: flex;
+}
+
+.js_slides {
+	width: 100%;
+}
+
+ul.js_slides {
+	@include reset-list;
+}
+
+.js_slide {
+	width: 100%;
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	white-space: normal;
+}

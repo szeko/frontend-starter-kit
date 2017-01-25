@@ -1,7 +1,12 @@
-# osx noise
 .DS_Store
 
-node_modules
+# Offline
+_assets
+_creative
+_documentation
+
+# Node
+node_modules/
 npm-debug.log
 
 _env.scss

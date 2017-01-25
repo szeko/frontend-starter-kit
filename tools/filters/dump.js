@@ -1,3 +1,1 @@
-module.exports = function(obj) {
-	return JSON.stringify(obj, null, 4);
-}
+module.exports = obj => JSON.stringify(obj, null, 4);

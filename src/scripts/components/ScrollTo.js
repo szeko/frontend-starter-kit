@@ -1,32 +1,28 @@
 import merge from 'lodash/merge';
 import Jump from 'jump.js';
-import { isMobile } from './utils/utils';
 
-const Jumper = new Jump();
+export default function createScrollTo (el, options) {
+  if (!el) {
+    return;
+  }
 
-function init(el, options) {
-	const scrollTarget = el.getAttribute('data-scroll-to');
-	const href = el.getAttribute('href');
-	const selector = (scrollTarget || href || '').replace('#', '');
+  const scrollTarget = el.getAttribute('data-scroll-to');
+  const selector = (scrollTarget || el.hash || '').replace('#', '');
 
-	if (!selector) {
-		return;
-	}
+  if (!selector) {
+    return;
+  }
 
-	const target = document.getElementById(selector);
+  const target = document.getElementById(selector);
 
-	if (!target) {
-		return;
-	}
+  if (!target) {
+    return;
+  }
 
-	el.addEventListener('click', (e) => {
-		e.preventDefault();
-		Jumper.jump(target, merge({
-			duration: 600
-		}, options));
-	});
+  el.addEventListener('click', (e) => {
+    e.preventDefault();
+    Jump(target, merge({
+      duration: 600
+    }, options));
+  });
 }
-
-export default {
-	init
-};

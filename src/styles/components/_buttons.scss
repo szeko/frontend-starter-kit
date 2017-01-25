@@ -1,25 +1,26 @@
-$button-bg-color: $color-white;
-$button-bg-color-hover: $color-secondary;
-$button-text-color: $color-primary;
-
-%button {
+@mixin button(
+	$color: $color-primary,
+	$color-hover: $color-primary,
+	$color-bg: $color-white,
+	$color-bg-hover: $color-white
+) {
 	@include clear-appearance;
 
 	display: inline-block;
-	background: $button-bg-color;
-	color: $button-text-color;
+	background: $color-bg;
+	color: $color;
+	transition: {
+		property: color, background;
+		duration: 0.2s;
+	}
 
 	&:hover {
-		background: $button-bg-color-hover;
-		color: $button-text-color;
-		transition-duration: 0.1s;
+		background: $color-bg-hover;
+		color: $color-hover;
 	}
 
 	&[disabled] {
 		pointer-events: none;
+		opacity: 0.5;
 	}
-}
-
-.button {
-	@extend %button;
 }

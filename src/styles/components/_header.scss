@@ -1,6 +1,3 @@
-$header-bg-color: $color-black;
-$header-bg-color-hover: rgba($header-bg-color, 0.5);
-
 .header {
 
 }
@@ -11,23 +8,26 @@ $header-bg-color-hover: rgba($header-bg-color, 0.5);
 
 .header__logo {
 
-	.icon {
+	svg {
+		width: 100px;
 	}
 }
 
 .header__menu {
 
 	ul {
-
+		@include reset-list;
 	}
 
 	li {
-
+		display: inline-block;
+		vertical-align: middle;
 	}
 
 	a {
 
-		&:hover {
+		&:hover,
+		&.is-active {
 
 		}
 	}

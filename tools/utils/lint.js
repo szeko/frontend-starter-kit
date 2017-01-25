@@ -8,10 +8,7 @@ module.exports = function(errorHandler) {
   return function(files) {
     return gulp.src(files)
       .pipe(plumber({
-          errorHandler: errorHandler || function (err) {
-              env.errorHandler(err);
-              this.emit('end');
-          }
+          errorHandler
       }))
       .pipe(filter('**/*.js'))
       .pipe(eslint())

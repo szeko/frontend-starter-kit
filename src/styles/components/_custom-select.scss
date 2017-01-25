@@ -1,44 +1,35 @@
+$custom-select-offset: 20px;
+$custom-select-toggle-gutter: 20px;
+
 .custom-select {
 	position: relative;
 	cursor: pointer;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 
 	select {
 		@include clear-appearance;
-		@include fill;
 
-		opacity: 0;
-		z-index: 2;
 		padding: 0;
 		margin: 0;
+		padding-right: ($custom-select-offset + $custom-select-toggle-gutter) !important;
+		margin-right: -$custom-select-offset !important;;
 		outline: 0;
 		color: currentColor;
 		cursor: pointer;
 	}
-}
 
-.custom-select__container {
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-}
+	&:after {
+		@include valign;
 
-.custom-select__selected {
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	width: 100%;
-}
-
-.custom-select__toggle {
-	position: absolute;
-	top: 50%;
-	right: 0;
-	transform-origin: 50% 50%;
-	transform: translate(-50%, -50%) rotate(90deg);
-
-	svg {
-		width: 9px;
-		height: 100%;
-		color: currentColor;
+		content: $empty;
+		right: 0;
+		width: 0;
+		height: 0;
+		border: 5px solid transparent;
+		border-bottom-width: 0;
+		border-top-color: currentColor;
+		border-top-width: 8px;
 	}
 }

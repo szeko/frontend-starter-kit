@@ -2,13 +2,13 @@
 
 ## Installation
 
-`npm install`
+`yarn`
 
 
 ## Commands
 
-Dev: `npm run dev`
-Production: `npm run build`
+Dev: `yarn dev`
+Production: `yarn build`
 
 [http://localhost:3000](http://localhost:3000)
 

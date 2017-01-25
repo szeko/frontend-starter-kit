@@ -1,0 +1,7 @@
+{% macro render(url = '', height = null) %}
+	<div class="embed">
+		<div class="embed__inner" {% if height %}style="min-height: {{ height }}px;"{% endif %}>
+			<iframe src="{{ url }}" {% if height %}height="{{ height }}"{% endif %} frameborder="0" allowtransparency="true" allowfullscreen></iframe>
+		</div>
+	</div>
+{% endmacro %}

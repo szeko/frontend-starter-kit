@@ -1,3 +1,11 @@
+@mixin content-container {
+	@include grid-container($include-column-gutter: false, $include-grid-row: false);
+
+	&:after {
+		content: none;
+	}
+}
+
 @mixin grid-container($include-column-gutter: true, $include-grid-row: true) {
 	@include container();
 
@@ -5,32 +13,54 @@
 		@include grid-row(false);
 	}
 
-	$gutter-small: $outer-gutter-small;
-	$gutter-medium: $outer-gutter-medium;
-	$gutter-large: $outer-gutter-large;
+	@each $name, $data in $breakpoints {
+		@if map-has-key($data, column-gutter) {
+			$gutter: map-get($data, gutter);
 
-	@if $include-column-gutter {
-		$gutter-small: $outer-gutter-small - ($column-gutter-small/2);
-		$gutter-medium: $outer-gutter-medium - ($column-gutter-medium/2);
-		$gutter-large: $outer-gutter-large - ($column-gutter-large/2);
+			@if $include-column-gutter {
+				$gutter: $gutter + map-get($data, column-gutter);
+			}
+
+			@media #{b($name,up)} {
+				padding: {
+					left: $gutter;
+					right: $gutter;
+				}
+			}
+		}
 	}
+}
 
-	padding: {
-		left: $gutter-small;
-		right: $gutter-small;
-	}
+@mixin faux-container($max-width: $row-width) {
+	$gutter: false;
 
-	@media #{$medium-up} {
-		padding: {
-			left: $gutter-medium;
-			right: $gutter-medium;
+	@each $name, $data in $breakpoints {
+		@if map-has-key($data, outer-gutter) {
+			$gutter: map-get($data, gutter);
+			$min: map-get($data, min);
+			$full-width: $max-width + ($gutter * 2);
+
+			$padding: if($min > $full-width, calc(50vw - #{$full-width / 2}), $gutter);
+
+			@media #{b($name,up)} {
+				padding: {
+					left: $padding;
+					right: $padding;
+				}
+			}
+
 		}
 	}
 
-	@media #{$large-up} {
-		padding: {
-			left: $gutter-large;
-			right: $gutter-large;
+	// use last gutter
+	@if $gutter {
+		$padding: calc(50vw - #{($max-width / 2) - $gutter});
+
+		@media only screen and (min-width: $max-width) {
+			padding: {
+				left: $padding;
+				right: $padding;
+			}
 		}
 	}
 }
@@ -40,22 +70,17 @@
 	clear: both;
 
 	@if $sub {
-		margin: {
-			left: -$column-gutter-small/2;
-			right: -$column-gutter-small/2;
-		}
 
-		@media #{$medium-up} {
-			margin: {
-				left: -$column-gutter-medium/2;
-				right: -$column-gutter-medium/2;
-			}
-		}
+		@each $name, $data in $breakpoints {
+			@if map-has-key($data, column-gutter) {
+				$gutter: map-get($data, column-gutter) / 2;
 
-		@media #{$large-up} {
-			margin: {
-				left: -$column-gutter-large/2;
-				right: -$column-gutter-large/2;
+				@media #{b($name,up)} {
+					padding: {
+						left: -$gutter;
+						right: -$gutter;
+					}
+				}
 			}
 		}
 	}
@@ -65,22 +90,16 @@
 	@include span($cols);
 
 	@if $gutter {
-		padding: {
-			left: $column-gutter-small/2;
-			right: $column-gutter-small/2;
-		}
+		@each $name, $data in $breakpoints {
+			@if map-has-key($data, column-gutter) {
+				$gutter: map-get($data, column-gutter) / 2;
 
-		@media #{$medium-up} {
-			padding: {
-				left: $column-gutter-medium/2;
-				right: $column-gutter-medium/2;
-			}
-		}
-
-		@media #{$large-up} {
-			padding: {
-				left: $column-gutter-large/2;
-				right: $column-gutter-large/2;
+				@media #{b($name,up)} {
+					padding: {
+						left: $gutter;
+						right: $gutter;
+					}
+				}
 			}
 		}
 	}
@@ -97,4 +116,15 @@
 	flex-wrap: nowrap;
 	justify-content: space-between;
 	align-items: $align;
+}
+
+@mixin flex-grid($basis, $gutter: $global-gutter) {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 #{-$gutter / 2} #{-$gutter};
+
+	& > * {
+		margin: 0 #{$gutter / 2} #{$gutter};
+		flex: 0 1 calc(#{$basis} - #{$gutter});
+	}
 }

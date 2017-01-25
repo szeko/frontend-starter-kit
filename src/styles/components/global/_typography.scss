@@ -1,70 +1,158 @@
-body {
-	font-family: $body-font-family;
-}
-
-h1, h2, h3, h4, h5, h6 {
+@mixin font($weight: normal, $type: normal, $size: null) {
 	font: {
-		family: $heading-font-family;
-		weight: $heading-font-weight;
-	}
-	line-height: 1.2;
-	text-transform: uppercase;
-
-	margin: 1.5em 0 1em;
-
-	&:first-child {
-		margin-top: 0;
-	}
-}
-
-h1 { font-size: 36px; }
-h2 { font-size: 24px; }
-h3 { font-size: 18px; }
-h4 { font-size: 15px; }
-h5 { font-size: $body-font-size; }
-h6 { font-size: $body-font-size; }
-
-p, li {
-	font-size: $body-font-size;
-	line-height: 1.4;
-}
-
-p {
-	margin: 1em 0;
-
-	&:first-child {
-		margin-top: 0;
-	}
-
-	&:last-child {
-		margin-bottom: 0;
-	}
-}
-
-strong {
-	font-weight: $body-font-weight-bold;
-}
-
-a {
-	color: $color-primary;
-	text-decoration: underline;
-
-	&:hover {
-	}
-
-	p & {
-
-		&:hover {
-			color: $color-secondary;
+		weight: getFontWeight($weight);
+		family: getFontFamily($type);
+		@if $size {
+			size: $size;
 		}
 	}
 }
 
-@media #{$medium-up} {
-	h1 { font-size: 50px; }
-	h2 { font-size: 36px; }
-	h3 { font-size: 18px; }
-	h4 { font-size: $body-font-size; }
-	h5 { font-size: $body-font-size; }
-	p { font-size: $body-font-size; }
+@function getFontFamily($type: body) {
+	@if $type == body {
+		@return $font-family-body;
+	}
+
+	@return $font-family-heading;
+}
+
+@function getFontWeight($weight: normal) {
+
+	$weights: (
+		light:     300,
+		regular:   400,
+		bold:      700,
+	);
+
+	@if map-has-key($weights, $weight) {
+		@return map-get($weights, $weight);
+	}
+
+	@return normal;
+}
+
+$headings: (
+	// h1
+	(
+		small: (
+			font-size: 36px,
+			font-weight: getFontWeight(bold),
+			font-family: getFontFamily(heading),
+			text-transform: uppercase
+		),
+		medium: (
+			font-size: 36px
+		)
+	),
+
+	// h2
+	(
+		small: (
+			font-size: 32px,
+			font-weight: getFontWeight(bold),
+			font-family: getFontFamily(heading),
+			line-height: 1
+		),
+		medium: (
+			font-size: 32px
+		)
+	),
+
+	// h3
+	(
+		small: (
+			font-size: 28px,
+			font-weight: getFontWeight(bold),
+			font-family: getFontFamily(heading),
+			text-transform: uppercase
+		),
+		medium: (
+		)
+	),
+
+	// h4
+	(
+		small: (
+			font-size: 24px,
+			font-weight: getFontWeight(bold),
+			font-family: getFontFamily(body),
+			text-transform: uppercase
+		),
+		medium: (
+		)
+	),
+
+	// h5
+	(
+		small: (
+			font-size: 18px,
+			font-weight: getFontWeight(bold),
+			font-family: getFontFamily(body),
+			text-transform: uppercase
+		),
+		medium: (
+		)
+	),
+
+	// h6
+	(
+		small: (
+			font-size: 16px,
+			font-weight: getFontWeight(bold),
+			font-family: getFontFamily(body),
+			text-transform: uppercase
+		),
+		medium: (
+		)
+	)
+);
+
+@mixin heading($level, $breakpoint: all) {
+	$font: nth($headings, $level);
+
+	@if ($breakpoint == all or $breakpoint == small) and map-has-key($font, small) {
+		@each $prop, $value in map-get($font, small) {
+			#{$prop}: $value;
+		}
+	}
+
+	@each $bp in $breakpoint_names {
+		@if map-has-key($font, $bp) {
+
+			$query: b($bp,up);
+			$condition: $breakpoint == all;
+
+			@include conditional-query($query, $condition) {
+				@if ($breakpoint == all or $breakpoint == $bp) {
+					@each $prop, $value in map-get($font, $bp) {
+						#{$prop}: $value;
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin body {
+	font: {
+		family: getFontFamily(body);
+		weight: getFontWeight(normal);
+		size: 14px;
+	}
+	line-height: 1.4;
+
+	@media #{$medium-up} {
+	}
+}
+
+body {
+	@include body;
+}
+
+a {
+	color: currentColor;
+	text-decoration: underline;
+
+	&:hover {
+	}
 }

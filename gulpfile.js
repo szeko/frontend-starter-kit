@@ -1,73 +1,79 @@
-var gulp = require('gulp');
-var path = require('path');
-var runSequence = require('run-sequence');
-var uglify = require('gulp-uglify');
-var rename = require('gulp-rename');
+const gulp = require('gulp');
+const path = require('path');
+const runSequence = require('run-sequence');
+const join = path.join.bind(path);
 
-var env = {
-	src: path.join(__dirname, 'src'),
-	dist: path.join(__dirname, 'public'),
-	production: process.argv.indexOf('--production') >= 0,
-	browserSync: require('browser-sync').create(),
-	// browserSyncConfig: {
-	// 	proxy: {
-	// 		target: 'localhost:' + env.server.port
-	// 	},
-	// 	server: null,
-	// 	open: false,
-	// 	notify: true
-	// },
-	tools: path.join(__dirname, 'tools')
+const env = {
+  src: join(__dirname, 'src'),
+  dist: join(__dirname, 'public'),
+  assets: join(__dirname, 'public', 'assets'),
+  production: process.argv.indexOf('--production') >= 0,
+  browserSync: require('browser-sync').create(),
+  browserSyncConfig: {
+    middleware: [require('./tools/utils/cors')]
+  },
+  tools: join(__dirname, 'tools')
 };
 
 env.paths = {
-	src: {
-		styles: path.join(env.src, 'styles'),
-		scripts: path.join(env.src, 'scripts'),
-		fonts: path.join(env.src, 'fonts', '**/*.{eot,ttf,woff,woff2,css}'),
-		images: path.join(env.src, 'images', '**/*.{svg,png,gif,jpg,ico}'),
-		sprites: path.join(env.src, 'images', 'sprites', '*.svg'),
-		templates: path.join(env.src, 'templates'),
-		filters: path.join(env.tools, 'filters', '*.js'),
-		data: path.join(env.tools, 'data', '*.{js,json}'),
-		stylesVendor: [
-			path.normalize('./node_modules')
-		],
-		scriptsVendor: [ // concat and uglify
-		],
-		scriptsExternal: [ // copy only
-		]
-	},
-	dist: {
-		styles: path.join(env.dist, 'styles'),
-		scripts: path.join(env.dist, 'scripts'),
-		fonts: path.join(env.dist, 'styles', 'fonts'),
-		images: path.join(env.dist, 'images'),
-		templates: env.dist
-	}
+  src: {
+    styles: join(env.src, 'styles'),
+    scripts: join(env.src, 'scripts'),
+    fonts: join(env.src, 'fonts', '**/*.{eot,ttf,woff,woff2,css}'),
+    images: join(env.src, 'images', '**/*.{svg,png,gif,jpg,ico}'),
+    sprites: join(env.src, 'images', 'sprites', '*.svg'),
+    templates: path.join(env.src, 'templates'),
+    templatesExclude: ['blocks', 'components', 'layouts', 'utils'],
+    templateAssets: [
+      path.join(env.src, 'images')
+    ],
+    filters: join(env.tools, 'filters', '*.js'),
+    data: [
+      join(env.tools, 'data', '*.{js,json}'),
+      join(env.src, 'data', '*.{js,json}'),
+    ],
+    stylesVendor: [
+      path.normalize('./node_modules')
+    ],
+    scriptsVendor: [
+      // concat and uglify
+    ],
+    scriptsExternal: [
+      // copy only
+    ]
+  },
+  dist: {
+    styles: join(env.assets, 'styles'),
+    scripts: join(env.assets, 'scripts'),
+    fonts: join(env.assets, 'styles', 'fonts'),
+    images: join(env.assets, 'images'),
+    templates: env.dist
+  }
 };
 
-require(path.join(env.tools, 'tasks'))(gulp, env);
+require(join(env.tools, 'tasks'))(gulp, env);
 
-gulp.task('default', function (done) {
-	return runSequence(
-		'clean',
-		['styles', 'scripts', 'images', 'fonts', 'process'],
-		done
-	);
+gulp.task('default', (done) => {
+  return runSequence(
+    'clean',
+    ['styles', 'scripts', 'images', 'fonts', 'process'],
+    done
+  );
 });
 
-gulp.task('watch', ['default', 'server'], function() {
-	gulp.watch(path.join(env.paths.src.styles, '**/*.scss'), ['styles']);
-	gulp.watch(env.paths.src.images, ['images']);
-	gulp.watch(path.join(env.paths.src.templates, '**/*.nunj'), ['process']);
+gulp.task('watch', ['default', 'server'], () => {
+  gulp.watch(join(env.paths.src.styles, '**/*.scss'), ['styles']);
+  gulp.watch(env.paths.src.images, ['images']);
+  gulp.watch([
+    path.join(env.paths.src.templates, '**/*.nunj'),
+    env.paths.src.data
+  ], ['process']);
 });
 
-gulp.task('build', function (done) {
-	env.production = true;
-	return runSequence(
-		'clean',
-		['styles', 'scripts', 'images', 'fonts', 'process'],
-		done
-	);
+gulp.task('build', (done) => {
+  env.production = true;
+  return runSequence(
+    'default',
+    done
+  );
 });

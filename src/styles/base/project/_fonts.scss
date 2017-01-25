@@ -1,7 +1,8 @@
-/*
- * FONT: MyFont
+/**
+ * Font: Example
  */
 
-// @include font-face(MyFont, "fonts/myfont-light", $weight: light, $file-formats: ttf eot woff woff2);
-@include font-face(MyFont, "fonts/myfont-regular", $weight: normal, $file-formats: ttf eot woff woff2);
-// @include font-face(MyFont, "fonts/myfont-bold", $weight: bold, $file-formats: ttf eot woff woff2);
+// @include font-face(Example, "fonts/example", $weight: normal, $file-formats: woff woff2);
+
+
+$system-fonts: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue";

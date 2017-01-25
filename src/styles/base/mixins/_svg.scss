@@ -1,0 +1,8 @@
+@function encode-svg($svg) {
+	@return 'data:image/svg+xml,#{url-encode($svg)}';
+}
+
+@function svg-url($svg) {
+	$encoded-svg: encode-svg($svg);
+	@return url("#{$encoded-svg}");
+}

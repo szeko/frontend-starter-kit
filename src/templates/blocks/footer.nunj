@@ -1,5 +1,3 @@
-{% import 'utils/svg.nunj' as svg %}
-
 <footer class="footer">
 
 	<div class="footer__wrapper">

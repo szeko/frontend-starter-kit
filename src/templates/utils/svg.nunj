@@ -1,4 +1,4 @@
-{% macro render(icon = '', width = '0', height = '0', class = '', title = '', spritesheet = 'images/sprites.svg') %}
+{% macro render(icon = '', width = '0', height = '0', class = '', title = '', spritesheet = '/assets/images/sprites.svg') %}
 
   {% set height = width if height == '0' else height %}
 

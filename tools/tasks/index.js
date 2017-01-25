@@ -1,25 +1,9 @@
 var path = require('path');
 var fs = require('fs');
-var gutil = require('gulp-util');
-
-function errorHandler(error) {
-	gutil.beep();
-
-	try {
-		gutil.log(
-			gutil.colors.bgGreen(error.plugin),
-			gutil.colors.bgRed(error.message.replace(/\r?\n|\r/g, ''))
-		);
-	} catch (e) {
-		console.error(error)
-	}
-
-	this.emit('end');
-}
 
 module.exports = function (gulp, env) {
 
-	env.errorHandler = env.errorHandler || errorHandler;
+	env.errorHandler = env.errorHandler || require('../utils/error');
 	env.production = typeof env.production === 'undefined' ? process.argv.indexOf('--production') >= 0 : env.production;
 	env.browserSync = env.browserSync || require('browser-sync').create();
 
